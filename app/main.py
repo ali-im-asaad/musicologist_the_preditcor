@@ -28,17 +28,44 @@ def get_image_download_link(fig, filename='plot.png', link_text='Download Plot')
 
 # Set up the title and sidebar description
 st.title('Music Valence Prediction Model')
-st.sidebar.header('User Inputs & Actions')
+st.sidebar.header('Inputs & Actions')
 
 # Sidebar - File uploader widget
-uploaded_file = st.sidebar.file_uploader("1. Choose a CSV file for analysis", type="csv")
+# uploaded_file = st.sidebar.file_uploader("1. Choose a CSV file for analysis", type="csv")
+# if uploaded_file is not None:
+#     df = pd.read_csv(uploaded_file, index_col=0)
+#     df = df.fillna(df.mean())
+
+# Sidebar - File uploader widget, now accepts CSV and Excel formats
+uploaded_file = st.sidebar.file_uploader("1. Choose a CSV or Excel file for analysis", type=["csv", "xlsx"])
 if uploaded_file is not None:
-    df = pd.read_csv(uploaded_file, index_col=0)
+    # Check file extension to use the appropriate Pandas function
+    file_extension = uploaded_file.name.split('.')[-1]
+    if file_extension.lower() == 'csv':
+        df = pd.read_csv(uploaded_file, index_col=0)
+    elif file_extension.lower() == 'xlsx':
+        df = pd.read_excel(uploaded_file, index_col=0)
+    else:
+        st.error("Unsupported file format! Please upload a CSV or Excel file.")
+        st.stop()
+
     df = df.fillna(df.mean())
 
-    st.sidebar.subheader("2. Select the Target Variable")
-    target_variable = st.sidebar.selectbox('This variable will be predicted by the model.', df.columns)
-
+    # Let the researcher decide which columns to exclude
+    columns_to_exclude = st.sidebar.multiselect('Select columns to exclude from predictors:', df.columns)
+    # Ensure target variable selection is from columns not excluded
+    potential_targets = [col for col in df.columns if col not in columns_to_exclude]
+    st.sidebar.subheader("Select the Target Variable")
+    target_variable = st.sidebar.selectbox('This variable will be predicted by the model.', potential_targets)
+    
+    if target_variable:
+        # Set the dependent variable and predictors
+        target = df[target_variable]
+        predictors = df.drop(columns=[target_variable] + columns_to_exclude)
+        
+    # st.sidebar.subheader("2. Select the Target Variable")
+    # target_variable = st.sidebar.selectbox('This variable will be predicted by the model.', df.columns)
+    print(target_variable)
     if st.sidebar.button('Show Data Description'):
         st.subheader('Data Description')
         st.write(df.describe())
@@ -53,7 +80,16 @@ if uploaded_file is not None:
 
     target = df[target_variable]
     predictors = df.drop(columns=[target_variable])
-    predictors_train, predictors_test, target_train, target_test = train_test_split(predictors, target, test_size=0.30, random_state=0)
+
+    num_columns_before = 3  # Adjust this number as needed based on your dataset
+    predictors = df.iloc[:, num_columns_before:]
+    # predictors_train, predictors_test, target_train, target_test = train_test_split(predictors, target, test_size=0.30, random_state=0)
+
+    randnumber = 0
+    predictors_train, predictors_test, target_train, target_test = train_test_split(predictors, target, test_size=0.30, random_state=randnumber)
+
+
+
 
     if st.sidebar.button('Train Model'):
         st.subheader('Model Training & Evaluation')
@@ -90,3 +126,4 @@ if uploaded_file is not None:
         st.write(f"Manual R² (Training): {r2_train_manual:.2f}, Manual R² (Testing): {r2_test_manual:.2f}")
 
         st.markdown(get_image_download_link(fig, 'actual_vs_predicted.png', 'Download Plot'), unsafe_allow_html=True)
+
