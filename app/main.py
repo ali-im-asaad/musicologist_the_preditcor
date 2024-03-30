@@ -9,15 +9,6 @@ import seaborn as sns
 from io import BytesIO
 import base64
 
-# Load custom CSS file
-# def local_css(file_name):
-#     with open(file_name) as f:
-#         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
-
-# local_css("/Users/aliasaad/Desktop/ai_repos/musicology_predictor/assets/style.css")
-
-# Rest of your Streamlit app code goes here
-
 # Function to generate a download link for textual data
 def download_link(object_to_download, download_filename, download_link_text):
     if isinstance(object_to_download, pd.DataFrame):
@@ -81,11 +72,11 @@ if uploaded_file is not None:
         st.pyplot(fig)
         st.markdown(get_image_download_link(fig, 'correlation_heatmap.png', 'Download Heatmap'), unsafe_allow_html=True)
 
-    target = df[target_variable]
-    predictors = df.drop(columns=[target_variable])
+    # target = df[target_variable]
+    # predictors = df.drop(columns=[target_variable])
 
-    num_columns_before = 3  # Adjust this number as needed based on your dataset
-    predictors = df.iloc[:, num_columns_before:]
+    # num_columns_before = 3  # Adjust this number as needed based on your dataset
+    # predictors = df.iloc[:, num_columns_before:]
     # predictors_train, predictors_test, target_train, target_test = train_test_split(predictors, target, test_size=0.30, random_state=0)
 
     randnumber = 0
@@ -130,3 +121,18 @@ if uploaded_file is not None:
 
         st.markdown(get_image_download_link(fig, 'actual_vs_predicted.png', 'Download Plot'), unsafe_allow_html=True)
 
+        # Function to interpret R² values
+        def interpret_r2(r2):
+            if r2 >= 0.75:
+                return "Excellent model performance. The model explains a large portion of the variability in the response variable."
+            elif r2 >= 0.5:
+                return "Good model performance. The model explains a significant portion of the variability in the response variable, though there's room for improvement."
+            elif r2 >= 0.25:
+                return "Moderate model performance. The model explains some variability in the response variable, but it might not be sufficient for all purposes."
+            else:
+                return "Poor model performance. The model does not explain much of the variability in the response variable. Consider reviewing the model's assumptions, adding more features, or using a different model."
+
+        # Display R² values and their interpretations
+        st.write(f"R² (Training): {r2_train:.2f}, R² (Testing): {r2_test:.2f}")
+        st.write(f"Interpretation (Training): {interpret_r2(r2_train)}")
+        st.write(f"Interpretation (Testing): {interpret_r2(r2_test)}")
