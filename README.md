@@ -1,7 +1,7 @@
 # Music Valence Prediction Model
 
 ## Overview
-The Music Valence Prediction Model app is a Streamlit-based application designed to predict the valence of music based on various attributes. It allows users to upload a CSV file, select a target variable, and train a model to predict music valence. The app provides data descriptions, correlation heatmaps, and actual vs. predicted plots to analyze the predictions.
+Al-Mutannabi: The Musicologist's Predictor is a Streamlit-based application designed to dynamically predict variables based on various attributes. It allows musicologists to upload Datasets as CSV/XLSX, dynamically and easily select a target variable, and select columns to exclude from predictors, then train a model to predict specific features tailored to the research use case. The app provides data descriptions, correlation heatmaps, and actual vs. predicted plots to analyze the predictions.
 
 ## Features
 - Upload CSV data for analysis.
@@ -34,7 +34,7 @@ To install and run this application, follow these steps:
 After launching the app, follow the instructions on the sidebar to upload your data, select the target variable, and interact with the model and visualizations.
 
 ## License
-Specify your license or leave this section empty if you're undecided.
+This project is proprietary and confidential. All rights reserved. Usage, modification, and distribution are allowed only with explicit written permission from the author. For inquiries regarding licensing or any other matters, please contact the author at ali.im.asaad@gmail.com
 
 ## Contributing
 Contributions to improve the app are welcome. Please follow the standard fork and pull request workflow.
