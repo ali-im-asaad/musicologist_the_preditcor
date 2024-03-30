@@ -4,7 +4,7 @@
 Al-Mutannabi: The Musicologist's Predictor is a Streamlit-based application designed to dynamically predict variables based on various attributes. It allows musicologists to upload Datasets as CSV/XLSX, dynamically and easily select a target variable, and select columns to exclude from predictors, then train a model to predict specific features tailored to the research use case. The app provides data descriptions, correlation heatmaps, and actual vs. predicted plots to analyze the predictions.
 
 ## Features
-- Upload CSV data for analysis.
+- Upload CSV/XLSX data for analysis.
 - Select target variable for prediction.
 - Data description and download.
 - Correlation heatmap visualization.
