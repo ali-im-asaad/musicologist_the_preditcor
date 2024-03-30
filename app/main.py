@@ -9,6 +9,15 @@ import seaborn as sns
 from io import BytesIO
 import base64
 
+# Load custom CSS file
+# def local_css(file_name):
+#     with open(file_name) as f:
+#         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
+# local_css("/Users/aliasaad/Desktop/ai_repos/musicology_predictor/assets/style.css")
+
+# Rest of your Streamlit app code goes here
+
 # Function to generate a download link for textual data
 def download_link(object_to_download, download_filename, download_link_text):
     if isinstance(object_to_download, pd.DataFrame):
@@ -27,14 +36,8 @@ def get_image_download_link(fig, filename='plot.png', link_text='Download Plot')
     return href
 
 # Set up the title and sidebar description
-st.title('Music Valence Prediction Model')
+st.title("Al-Mutannabi: The Musicologist's Predictor")
 st.sidebar.header('Inputs & Actions')
-
-# Sidebar - File uploader widget
-# uploaded_file = st.sidebar.file_uploader("1. Choose a CSV file for analysis", type="csv")
-# if uploaded_file is not None:
-#     df = pd.read_csv(uploaded_file, index_col=0)
-#     df = df.fillna(df.mean())
 
 # Sidebar - File uploader widget, now accepts CSV and Excel formats
 uploaded_file = st.sidebar.file_uploader("1. Choose a CSV or Excel file for analysis", type=["csv", "xlsx"])
