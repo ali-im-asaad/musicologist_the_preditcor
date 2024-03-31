@@ -27,7 +27,7 @@ def get_image_download_link(fig, filename='plot.png', link_text='Download Plot')
     return href
 
 # Set up the title and sidebar description
-st.title("Al-Mutannabi: The Musicologist's Predictor")
+st.title("Al-Mutanabbi: The Musicologist's Predictor")
 st.sidebar.header('Inputs & Actions')
 
 # Sidebar - File uploader widget, now accepts CSV and Excel formats
